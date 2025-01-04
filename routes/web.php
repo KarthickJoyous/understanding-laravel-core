@@ -18,4 +18,9 @@ Route::group(['prefix' => 'stripe'], function () {
     Route::get('checkout_without_di', [StripeController::class, 'customCheckoutWithDI']);
 });
 
+Route::group(['prefix' => 'posts'], function () {
+
+    Route::get('', [PostController::class, 'post']);
+});
+
 Route::get('logger', LoggerController::class);
