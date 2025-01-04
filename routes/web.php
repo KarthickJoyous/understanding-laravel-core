@@ -11,9 +11,11 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'stripe'], function () {
 
-    Route::get('checkout', [StripeController::class, 'checkout']);
+    Route::get('checkout', [StripeController::class, 'checkout'])->middleware('loggor');
 
     Route::get('checkout_with_di', [StripeController::class, 'customCheckoutWithDI']);
 
     Route::get('checkout_without_di', [StripeController::class, 'customCheckoutWithDI']);
 });
+
+Route::get('logger', LoggerController::class);

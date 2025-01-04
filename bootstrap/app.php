@@ -16,7 +16,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->web(append: [
+            LevelOneMiddleware::class,
+            LevelTwoMiddleware::class,
+            LevelThreeMiddleware::class
+        ]);
+        $middleware->alias([
+            'loggor' => AppLogger::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
