@@ -3,13 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function show(User $user, Post $post)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        return $post;
+        return Post::query()
+            ->withCount(['comments'])
+            ->with([
+                'user:id,name',
+                'comments:id,post_id,user_id,comment',
+                'comments.user:id,name'
+            ])
+            ->get();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post)
+    {
+        return $post->loadCount(['comments'])
+            ->load([
+                'user:id,name',
+                'comments:id,post_id,user_id,comment',
+                'comments.user:id,name'
+            ]);
     }
 }

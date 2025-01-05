@@ -12,6 +12,11 @@ class Comment extends Model
 
     protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withDefault();
+    }
+
     public function post()
     {
         return $this->belongsTo(Post::class)->withDefault();

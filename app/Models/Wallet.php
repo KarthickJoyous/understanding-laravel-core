@@ -31,9 +31,5 @@ class Wallet extends Model
         static::creating(function (Wallet $wallet) {
             $wallet->unique_id = uniqid();
         });
-
-        static::created(function (Wallet $wallet) {
-            $wallet->unique_id = uniqid();
-        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => array_rand(User::pluck('id')->toArray()),
             'comment' => $this->faker->sentence()
         ];
     }

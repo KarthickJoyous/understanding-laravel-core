@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DemoPostController extends Controller
+class DIPostController extends Controller
 {
     public function post(Request $request)
     {

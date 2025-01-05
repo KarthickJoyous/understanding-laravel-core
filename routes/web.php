@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DemoPostController;
-use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DIPostController;
+use App\Http\Controllers\LoggerController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserPostController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,7 +25,7 @@ Route::group(['prefix' => 'stripe'], function () {
 
 Route::group(['prefix' => 'posts'], function () {
 
-    Route::get('', [DemoPostController::class, 'post']);
+    Route::get('', [DIPostController::class, 'post']);
 });
 
 Route::get('logger', LoggerController::class);
@@ -41,10 +43,13 @@ Route::get('now_formatted', function () {
 Route::get('users/{user}', [UserController::class, 'show']);
 
 /*
- hasOne() relationship must be retrieved without binding the child in route.
+    ONE-TO-ONE (User (parent) - Wallet (child)) :
 
- Route::get('users/{user}/wallet/{wallet}', [UserController::class, 'show']); Will not work. Laravel is checking for a relationship called `wallets` instead of `wallet`.
+    hasOne() relationship must be retrieved without binding the child in route.
+
+    Route::get('users/{user}/wallet/{wallet}', [UserController::class, 'show']); Will not work. Laravel is checking for a relationship called `wallets` instead of `wallet`.
 */
+
 Route::get('users/{user}/wallet', [UserController::class, 'wallet']);
 
 /*
@@ -57,14 +62,33 @@ Route::get('wallets/{wallet}', [WalletController::class, 'show']); // {http://12
 Route::get('wallets/{wallet:id}', [WalletController::class, 'show']); // {http://127.0.0.1:8000/wallets/id} (default)
 
 /*
+    hasMany (User hasMany Posts)
+    hasMany (Post hasMany Comments)
+*/
+Route::get('users/{user}/posts', [UserPostController::class, 'index']);
+
+/*
     Below routes will works same.
     If child implicitly defined. Laravel will retrieve the Post & will check if it belongs to the User.
     If child implicitly defined, but called scopeBindings(), Laravel will retrieve the Post & will check if it belongs to the User.
 
     If child not implicitly defined & scopeBindings is also not called. It will retrieve the post, will not check if it's belongs to user/not.
 
-    Route::get('users/{user}/posts/{post}', [PostController::class, 'show']);
+    Route::get('users/{user}/posts/{post}', [UserPostController::class, 'show']);
 */
-Route::get('users/{user}/posts/{post:id}', [PostController::class, 'show']);
+Route::get('users/{user}/posts/{post:id}', [UserPostController::class, 'show']);
 
-Route::get('users/{user}/posts/{post}', [PostController::class, 'show'])->scopeBindings();
+Route::get('users/{user}/posts/{post}', [UserPostController::class, 'show'])->scopeBindings();
+
+/*  
+    hasOne Inverse (BelongsTo) (Post belongsTo User)
+    hasMany (Post hasMany Comments)
+    hasOne Inverse (BelongsTo) (Comment belongs to User)
+*/
+Route::resource('posts', PostController::class)->only(['index', 'show']);
+
+/*  
+    hasOne Inverse (BelongsTo) (Comment belongsTo Post)
+    hasOne Inverse (BelongsTo) (Comment belongsTo User)
+*/
+Route::resource('comments', CommentController::class)->only(['index', 'show']);
