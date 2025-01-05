@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
+            $table->string('unique_id', 20)->unique();
             $table->integer('user_id');
             $table->string('balance', 10, 2)->default(0.00);
             $table->timestamps();

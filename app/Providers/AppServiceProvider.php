@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use App\Facades\HelperFacade;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\EmailService;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -39,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        DB::listen(function ($query) {
+            // info($query->sql, $query->bindings, $query->time);
+        });
     }
 }
