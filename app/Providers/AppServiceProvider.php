@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Helpers\Helper;
+use App\Facades\HelperFacade;
 use App\Http\Controllers\EmailService;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +18,20 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(EmailService::class)
             ->needs('$email')
             ->give(rand() . '@app.com');
+
+        $this->app->bind(Helper::class, function () {
+            return new Helper(rand());
+        });
+
+        $this->app->alias(Helper::class, 'helper');
+
+        /*
+            Set-up alias for Facades
+        */
+
+        AliasLoader::getInstance([
+            'Help' => HelperFacade::class,
+        ]);
     }
 
     /**

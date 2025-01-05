@@ -24,3 +24,13 @@ Route::group(['prefix' => 'posts'], function () {
 });
 
 Route::get('logger', LoggerController::class);
+
+Route::get('uuid', function () {
+
+    return Help::generateUUID();
+});
+
+Route::get('now_formatted', function () {
+
+    return Help::nowFormatted('d-m-Y');
+});

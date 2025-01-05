@@ -27,7 +27,7 @@ class LevelOneMiddleware
         info($data);
 
         if ($data) {
-            $response->setContent(json_encode($data + ['UTC' => now()->format('d M Y h:i:s A')]));
+            //$response->setContent(json_encode($data + ['UTC' => now()->format('d M Y h:i:s A')]));
         }
 
         return $response; // Passes the response back up the pipeline
