@@ -8,6 +8,8 @@ use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserPostController;
 
 Route::get('/', function () {
@@ -92,3 +94,18 @@ Route::resource('posts', PostController::class)->only(['index', 'show']);
     hasOne Inverse (BelongsTo) (Comment belongsTo User)
 */
 Route::resource('comments', CommentController::class)->only(['index', 'show']);
+
+
+/*
+    hasOneThrough
+
+    Broker (belongsTo Property)
+    Property (hasOne Broker & belongsTo Project)
+    Project (hasOne Property)
+
+    Project-Broker (No direct relationship) : Using hasOneThrough to Retrieve Project for Broker & Broker for Project.
+*/
+
+Route::resource('projects', ProjectController::class)->only(['index', 'show']);
+
+Route::resource('mechanics', MechanicController::class)->only(['index', 'show']);
