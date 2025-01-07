@@ -10,12 +10,26 @@ class CommentController extends Controller
     public function index()
     {
         return Comment::query()
-            ->with(['post:id,user_id,post', 'user:id,name', 'post.user:id,name'])
+            ->with([
+                'user:id,name',
+                'post:id,user_id,post',
+                'post.user:id,name',
+                'postUser' => function ($query) {
+                    $query->select('users.id', 'users.name');
+                }
+            ])
             ->get();
     }
 
     public function show(Comment $comment)
     {
-        return $comment->load(['post:id,post', 'user:id,name', 'post.user:id,name']);
+        return $comment->load([
+            'user:id,name',
+            // 'post:id,post',
+            // 'post.user:id,name',
+            'postUser' => function ($query) {
+                $query->select('users.id', 'users.name');
+            }
+        ]);
     }
 }

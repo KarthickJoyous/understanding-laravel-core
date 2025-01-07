@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DIPostController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
 
 Route::get('/', function () {
@@ -97,7 +98,7 @@ Route::resource('comments', CommentController::class)->only(['index', 'show']);
 
 
 /*
-    hasOneThrough
+    hasOneThrough (This can be achieved by using a nested relationship as well, but that will retrieve extra data)
 
     Broker (belongsTo Property)
     Property (hasOne Broker & belongsTo Project)
@@ -109,3 +110,16 @@ Route::resource('comments', CommentController::class)->only(['index', 'show']);
 Route::resource('projects', ProjectController::class)->only(['index', 'show']);
 
 Route::resource('mechanics', MechanicController::class)->only(['index', 'show']);
+
+/*
+    Many to Many
+
+    User hasMany Roles.
+    Role hasMany Users.
+*/
+
+Route::get('users/{user}/roles', [UserController::class, 'roles']);
+
+Route::get('roles', [RoleController::class, 'index']);
+
+Route::get('roles/{role}', [RoleController::class, 'show']);

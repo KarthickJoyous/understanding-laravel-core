@@ -17,6 +17,7 @@ class Mechanic extends Model
 
     public function carOwner()
     {
-        return $this->hasOneThrough(Owner::class, Car::class)->withDefault();
+        // return $this->hasOneThrough(Owner::class, Car::class)->withDefault();
+        return $this->hasOneThrough(Owner::class, Car::class, 'mechanic_id', 'car_id')->withDefault();
     }
 }

@@ -17,4 +17,14 @@ class UserController extends Controller
     {
         return $user->wallet;
     }
+
+    public function roles(User $user)
+    {
+        return $user->load(['roles:id,name']);
+
+        return $user
+            ->load(['roles' => function ($query) {
+                $query->select('roles.id', 'roles.name')->where('roles.name', "LIKE", "%ic%");
+            }]);
+    }
 }

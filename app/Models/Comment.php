@@ -21,4 +21,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class)->withDefault();
     }
+
+    public function postUser()
+    {
+        return $this->hasOneThrough(User::class, Post::class, 'id', 'id', 'post_id', 'user_id');
+    }
 }

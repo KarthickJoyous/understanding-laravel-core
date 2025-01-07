@@ -55,6 +55,12 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class)->withDefault();
     }
 
+    public function roles()
+    {
+
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
     protected static function booted()
     {
 

@@ -11,8 +11,11 @@ class MechanicController extends Controller
     {
         return Mechanic::query()
             ->with([
-                'car:id,mechanic_id,model',
-                'carOwner'
+                //'car:id,mechanic_id,model',
+                // 'carOwner:id,name', -- Will give error
+                'carOwner' => function ($query) {
+                    $query->select('owners.id', 'owners.name');
+                }
                 //'car.owner:id,car_id,name'
             ])
             ->get();

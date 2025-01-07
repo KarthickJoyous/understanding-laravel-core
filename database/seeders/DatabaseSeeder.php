@@ -11,7 +11,9 @@ use App\Models\Mechanic;
 use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,23 +22,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $users = User::factory(10)->create();
+        $users = User::factory(10)->create();
 
-        // foreach ($users as $user) {
-        //     Post::factory(rand(0, 10))
-        //         ->for($user)
-        //         ->hasComments(rand(0, 2))
-        //         ->create();
-        // }
+        foreach ($users as $user) {
+            Post::factory(rand(0, 10))
+                ->for($user)
+                ->hasComments(rand(0, 2))
+                ->create();
+        }
 
-        // $projects = Project::factory(10)->create();
+        $projects = Project::factory(10)->create();
 
-        // foreach ($projects as $project) {
+        foreach ($projects as $project) {
 
-        //     $property = Property::factory(1)->for($project)->create();
+            $property = Property::factory(1)->for($project)->create();
 
-        //     Broker::factory(1)->for($property[0])->create();
-        // }
+            Broker::factory(1)->for($property[0])->create();
+        }
 
         $mechanics = Mechanic::factory(10)->create();
 
@@ -46,5 +48,20 @@ class DatabaseSeeder extends Seeder
 
             Owner::factory(1)->for($owner[0])->create();
         }
+
+        $user_ids = User::pluck('id')->toArray();
+
+        $role_ids = collect(Role::factory(20)->create())->pluck('id')->toArray();
+
+        foreach (range(1, 60) as $range) {
+            $role_users[] = [
+                'user_id' => $user_ids[rand(0, count($user_ids) - 1)],
+                'role_id' => $role_ids[rand(0, count($role_ids) - 1)],
+                'created_at' => (string)now(),
+                'updated_at' => (string)now()
+            ];
+        }
+
+        DB::table('role_user')->insert($role_users);
     }
 }

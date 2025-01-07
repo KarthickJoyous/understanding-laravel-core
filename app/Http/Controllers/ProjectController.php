@@ -11,9 +11,12 @@ class ProjectController extends Controller
     {
         return Project::query()
             ->with([
-                'property:id,project_id,name',
-                'propertyBroker'
-                //'property.broker:id,property_id,name'
+                //'property:id,project_id,name',
+                //'propertyBroker:id,name', // Will give error
+                'propertyBroker' => function ($query) {
+                    $query->select('brokers.id', 'brokers.name');
+                },
+                //'property.broker:id,property_id,name' // Nested
             ])
             ->get();
     }
