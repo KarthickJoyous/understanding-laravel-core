@@ -32,4 +32,9 @@ class CommentController extends Controller
             }
         ]);
     }
+
+    public function media(Comment $comment)
+    {
+        return $comment->loadCount(['media'])->load(['media:id,media,mediable_id,mediable_type']);
+    }
 }

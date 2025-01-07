@@ -32,4 +32,9 @@ class Post extends Model
     {
         return $this->hasOne(Comment::class)->oldestOfMany();
     }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
 }

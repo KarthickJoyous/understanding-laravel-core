@@ -26,4 +26,9 @@ class Comment extends Model
     {
         return $this->hasOneThrough(User::class, Post::class, 'id', 'id', 'post_id', 'user_id');
     }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
 }

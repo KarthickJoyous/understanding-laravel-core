@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DIPostController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
@@ -94,6 +95,9 @@ Route::resource('posts', PostController::class)->only(['index', 'show']);
     hasOne Inverse (BelongsTo) (Comment belongsTo Post)
     hasOne Inverse (BelongsTo) (Comment belongsTo User)
 */
+
+Route::get('comments/{comment}/media', [CommentController::class, 'media']);
+
 Route::resource('comments', CommentController::class)->only(['index', 'show']);
 
 
@@ -123,3 +127,5 @@ Route::get('users/{user}/roles', [UserController::class, 'roles']);
 Route::get('roles', [RoleController::class, 'index']);
 
 Route::get('roles/{role}', [RoleController::class, 'show']);
+
+Route::resource('media', MediaController::class)->only(['index', 'show']);
