@@ -10,6 +10,7 @@ use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DBUserQueryBuilderController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
@@ -129,3 +130,8 @@ Route::get('roles', [RoleController::class, 'index']);
 Route::get('roles/{role}', [RoleController::class, 'show']);
 
 Route::resource('media', MediaController::class)->only(['index', 'show']);
+
+Route::group(['prefix' => 'query_builders'], function () {
+
+    Route::resource('users', DBUserQueryBuilderController::class)->names('query_builders.users')->only(['index', 'store', 'show', 'destroy']);
+});
