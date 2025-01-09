@@ -10,10 +10,11 @@ use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DBUserQueryBuilderController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
+use App\Http\Controllers\DBPostQueryBuilderController;
+use App\Http\Controllers\DBUserQueryBuilderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -134,4 +135,6 @@ Route::resource('media', MediaController::class)->only(['index', 'show']);
 Route::group(['prefix' => 'query_builders'], function () {
 
     Route::resource('users', DBUserQueryBuilderController::class)->names('query_builders.users')->only(['index', 'store', 'show', 'destroy']);
+
+    Route::resource('posts', DBPostQueryBuilderController::class)->names('query_builders.posts')->only(['index', 'store', 'show', 'destroy']);
 });
