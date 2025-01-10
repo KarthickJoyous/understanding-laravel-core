@@ -15,6 +15,7 @@ use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\DBPostQueryBuilderController;
 use App\Http\Controllers\DBUserQueryBuilderController;
+use App\Http\Controllers\PaginateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -131,6 +132,15 @@ Route::get('roles', [RoleController::class, 'index']);
 Route::get('roles/{role}', [RoleController::class, 'show']);
 
 Route::resource('media', MediaController::class)->only(['index', 'show']);
+
+Route::controller(PaginateController::class)->group(function () {
+
+    Route::get('paginate', 'paginate');
+
+    Route::get('simplePaginate', 'simplePaginate');
+
+    Route::get('cursorPaginate', 'cursorPaginate');
+});
 
 Route::group(['prefix' => 'query_builders'], function () {
 
