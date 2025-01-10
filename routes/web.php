@@ -15,6 +15,7 @@ use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\DBPostQueryBuilderController;
 use App\Http\Controllers\DBUserQueryBuilderController;
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PaginateController;
 
 Route::get('/', function () {
@@ -140,6 +141,21 @@ Route::controller(PaginateController::class)->group(function () {
     Route::get('simplePaginate', 'simplePaginate');
 
     Route::get('cursorPaginate', 'cursorPaginate');
+});
+
+Route::controller(JoinController::class)->prefix('join')->group(function () {
+
+    Route::get('', 'join');
+
+    Route::get('left', 'left');
+
+    Route::get('right', 'right');
+
+    Route::get('self', 'self');
+
+    Route::get('cross', 'cross');
+
+    Route::get('full', 'full');
 });
 
 Route::group(['prefix' => 'query_builders'], function () {
