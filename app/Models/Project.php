@@ -17,8 +17,8 @@ class Project extends Model
         return $this->hasOne(Property::class);
     }
 
-    public function propertyBroker()
+    public function broker()
     {
-        return $this->hasOneThrough(Broker::class, Property::class);
+        return $this->hasOneThrough(Broker::class, Property::class, 'project_id', 'property_id');
     }
 }

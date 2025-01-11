@@ -15,8 +15,10 @@ use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\DBPostQueryBuilderController;
 use App\Http\Controllers\DBUserQueryBuilderController;
+use App\Http\Controllers\GarageController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PaginateController;
+use App\Http\Controllers\SecurityController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -164,3 +166,7 @@ Route::group(['prefix' => 'query_builders'], function () {
 
     Route::resource('posts', DBPostQueryBuilderController::class)->names('query_builders.posts')->only(['index', 'store', 'show', 'destroy']);
 });
+
+Route::resource('garages', GarageController::class)->only(['index', 'show']);
+
+Route::resource('securities', SecurityController::class)->only(['index', 'show']);

@@ -12,8 +12,8 @@ class ProjectController extends Controller
         return Project::query()
             ->with([
                 //'property:id,project_id,name',
-                //'propertyBroker:id,name', // Will give error
-                'propertyBroker' => function ($query) {
+                //'broker:id,name', // Will give error
+                'broker' => function ($query) {
                     $query->select('brokers.id', 'brokers.name');
                 },
                 //'property.broker:id,property_id,name' // Nested
