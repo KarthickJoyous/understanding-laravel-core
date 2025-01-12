@@ -1,28 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\{RegisterController, LoginController, HomeController};
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\DIPostController;
+use App\Http\Controllers\GarageController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\PaginateController;
+use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\DBPostQueryBuilderController;
 use App\Http\Controllers\DBUserQueryBuilderController;
-use App\Http\Controllers\GarageController;
-use App\Http\Controllers\JoinController;
-use App\Http\Controllers\PaginateController;
-use App\Http\Controllers\SecurityController;
-
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
 
 Route::group(['prefix' => 'stripe'], function () {
 
@@ -170,3 +167,29 @@ Route::group(['prefix' => 'query_builders'], function () {
 Route::resource('garages', GarageController::class)->only(['index', 'show']);
 
 Route::resource('securities', SecurityController::class)->only(['index', 'show']);
+
+Route::controller(RegisterController::class)
+    ->middleware('guest')
+    ->name('auth.register.')
+    ->group(function () {
+
+        Route::get('register', 'form')->name('form');
+
+        Route::post('register', 'register')->name('register');
+    });
+
+Route::controller(LoginController::class)
+    ->middleware('guest')
+    ->group(function () {
+
+        Route::get('login', 'form')->name('login.form');
+
+        Route::post('login', 'login')->name('login');
+    });
+
+Route::group(['middleware' => 'auth:web'], function () {
+
+    Route::get('', [HomeController::class, 'welcome'])->name('welcome');
+
+    Route::post('logout', [HomeController::class, 'logout'])->name('logout');
+});
